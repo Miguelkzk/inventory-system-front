@@ -1,0 +1,25 @@
+/* index.css */
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/* Estilos generales */
+body[theme="dark"] {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body[theme="dark"] a {
+  color: #bb86fc;
+}
+
+body[theme="dark"] nav {
+  background-color: #333333;
+}
+
+body[theme="dark"] .button {
+  background-color: #6200ee;
+  color: #ffffff;
+}
