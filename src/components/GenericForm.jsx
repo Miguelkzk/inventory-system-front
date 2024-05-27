@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Button } from 'react-bootstrap';
 
-const GenericForm = ({ fields, onSubmit }) => {
+const GenericForm = ({ fields, onSubmit, initialValues }) => {
   const [formData, setFormData] = useState(
     fields.reduce((acc, field) => {
-      acc[field.name] = '';
+      acc[field.name] = initialValues[field.name] || '';
       return acc;
     }, {})
   );
+
+  useEffect(() => {
+    setFormData(
+      fields.reduce((acc, field) => {
+        acc[field.name] = initialValues[field.name] || '';
+        return acc;
+      }, {})
+    );
+  }, [initialValues, fields]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,7 +42,7 @@ const GenericForm = ({ fields, onSubmit }) => {
               name={field.name}
               value={formData[field.name]}
               onChange={handleChange}
-              style={{ display: 'block', width: '100%', padding: '8px', margin: '5px 0', }}
+              style={{ display: 'block', width: '100%', padding: '8px', margin: '5px 0' }}
             />
           </label>
         </div>

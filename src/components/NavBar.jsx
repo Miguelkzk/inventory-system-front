@@ -7,8 +7,10 @@ function NavBar() {
   return (
     <>
       <Navbar bg="primary" data-bs-theme="dark">
-        <Navbar.Brand onClick={() => navigate('/')} style={{ cursor: 'pointer' }} >Articles</Navbar.Brand>
-        <Navbar.Brand onClick={() => navigate('/suppliers')} style={{ cursor: 'pointer' }} >Suppliers</Navbar.Brand>
+        <span style={{ marginLeft: '1%', cursor: 'pointer' }}>
+          <Navbar.Brand onClick={() => navigate('/')} >Articles</Navbar.Brand>
+          <Navbar.Brand onClick={() => navigate('/suppliers')}  >Suppliers</Navbar.Brand>
+        </span>
       </Navbar>
     </>
   );
