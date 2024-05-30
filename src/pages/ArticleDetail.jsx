@@ -20,6 +20,13 @@ function ArticleDetail() {
     { name: 'code', type: 'text', label: 'Code' },
     { name: 'name', type: 'text', label: 'Name' },
     { name: 'description', type: 'text', label: 'Description' },
+    { name: 'cost', type: 'text', label: 'cost' },
+    { name: 'current_stock', type: 'text', label: 'Current Stock' },
+    { name: 'estimated_demand', type: 'text', label: 'Estimated demand' },
+    { name: 'inventory_model', type: 'text', label: 'Inventory model' },
+    { name: 'requested_point', type: 'text', label: 'Requested point' },
+    { name: 'security_stock', type: 'text', label: 'Security stock' },
+
   ];
 
   const editArticle = (article) => {
@@ -60,7 +67,12 @@ function ArticleDetail() {
       <h3>Code: {article.code}</h3>
       <h3>Name: {article.name}</h3>
       <h3>Description: {article.description}</h3>
-      <h3>Demas atributos</h3>
+      <h3>Cost: {article.cost}</h3>
+      <h3>Current stock: {article.current_stock}</h3>
+      <h3>Estemated demand: {article.estimated_demand}</h3>
+      <h3>Inventory model: {article.inventory_model}</h3>
+      <h3>Requested point: {article.requested_point}</h3>
+      <h3>Security stock: {article.security_stock}</h3>
     </div>
     <div style={{ marginLeft: '2%' }}>
       <Button variant="warning" onClick={() => editArticle(article)}>Edit Article</Button>

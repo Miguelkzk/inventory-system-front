@@ -11,6 +11,12 @@ function ArticlesTable() {
     { name: 'code', type: 'text', label: 'code' },
     { name: 'name', type: 'text', label: 'name' },
     { name: 'description', type: 'text', label: 'description' },
+    { name: 'cost', type: 'text', label: 'cost' },
+    { name: 'current_stock', type: 'text', label: 'Current Stock' },
+    { name: 'estimated_demand', type: 'text', label: 'Estimated demand' },
+    { name: 'inventory_model', type: 'text', label: 'Inventory model' },
+    { name: 'requested_point', type: 'text', label: 'Requested point' },
+    { name: 'security_stock', type: 'text', label: 'Security stock' },
   ];
 
   const [showModal, setShowModal] = useState(false);
