@@ -4,6 +4,7 @@ import GenericModal from "../components/GenericModal";
 import { ArticleService } from "../service/Article";
 import { useNavigate } from "react-router-dom";
 import ViewButton from "../components/ViewButton";
+import { useTranslation } from "react-i18next";
 
 function ArticlesTable() {
 
@@ -60,11 +61,11 @@ function ArticlesTable() {
   const viewDetail = (article) => {
     navigate('/article', { state: { article } });
   }
-
+  const { t, i18n } = useTranslation();
   return (
     <>
       <div className="container mt-3">
-        <Button onClick={() => newArticle()}>New article</Button>
+        <Button onClick={() => newArticle()}>{t('New article')}</Button>
 
         <GenericModal
           show={showModal}
@@ -77,9 +78,9 @@ function ArticlesTable() {
         <Table hover style={{ fontSize: '18px', marginTop: '1rem' }}>
           <thead style={{ textAlign: 'center' }} >
             <tr>
-              <th>Code</th>
-              <th>Name</th>
-              <th>View all</th>
+              <th>{t('code')}</th>
+              <th>{t('name')}</th>
+              <th>{t('view all')}</th>
             </tr>
           </thead>
           <tbody style={{ textAlign: 'center', cursor: 'pointer' }} >

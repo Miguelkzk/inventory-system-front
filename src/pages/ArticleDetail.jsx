@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import GenericModal from "../components/GenericModal";
 import ConfirmModal from "../components/ConfirmModal";
+import { useTranslation } from "react-i18next";
 
 function ArticleDetail() {
   const location = useLocation();
   const { article: initialArticle } = location.state || {};
   const navigate = useNavigate();
-
+  const { t, i18n } = useTranslation(); 
   const [article, setArticle] = useState(initialArticle);
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
@@ -17,15 +18,15 @@ function ArticleDetail() {
   const [initialValues, setInitialValues] = useState({});
 
   const fields = [
-    { name: 'code', type: 'text', label: 'Code' },
-    { name: 'name', type: 'text', label: 'Name' },
-    { name: 'description', type: 'text', label: 'Description' },
-    { name: 'cost', type: 'text', label: 'cost' },
-    { name: 'current_stock', type: 'text', label: 'Current Stock' },
-    { name: 'estimated_demand', type: 'text', label: 'Estimated demand' },
-    { name: 'inventory_model', type: 'text', label: 'Inventory model' },
-    { name: 'requested_point', type: 'text', label: 'Requested point' },
-    { name: 'security_stock', type: 'text', label: 'Security stock' },
+    { name: 'code', type: 'text', label: t("code") },
+    { name: 'name', type: 'text', label: t('name') },
+    { name: 'description', type: 'text', label: t('Description') },
+    { name: 'cost', type: 'text', label: t('Cost') },
+    { name: 'current_stock', type: 'text', label: t('Current stock') },
+    { name: 'estimated_demand', type: 'text', label: t('estimated demand') },
+    { name: 'inventory_model', type: 'text', label: t('inventory model') },
+    { name: 'requested_point', type: 'text', label: t('requested point') },
+    { name: 'security_stock', type: 'text', label: t('security stock') },
 
   ];
 
@@ -60,24 +61,24 @@ function ArticleDetail() {
     } catch (error) {
       console.error(error)
     }
+  }; 
 
-  };
   return (<>
     <div style={{ textAlign: 'left', marginLeft: '2%', marginTop: '2%' }}>
-      <h3>Code: {article.code}</h3>
-      <h3>Name: {article.name}</h3>
-      <h3>Description: {article.description}</h3>
-      <h3>Cost: {article.cost}</h3>
-      <h3>Current stock: {article.current_stock}</h3>
-      <h3>Estemated demand: {article.estimated_demand}</h3>
-      <h3>Inventory model: {article.inventory_model}</h3>
-      <h3>Requested point: {article.requested_point}</h3>
-      <h3>Security stock: {article.security_stock}</h3>
+      <h3>{t('code')}: {article.code}</h3>
+      <h3>{t('name')}: {article.name}</h3>
+      <h3>{t('Description')}: {article.description}</h3>
+      <h3>{t('Cost')}: {article.cost}</h3>
+      <h3>{t('Current stock')}: {article.current_stock}</h3>
+      <h3>{t('estimated demand')} {article.estimated_demand}</h3>
+      <h3>{t('inventory model')}: {article.inventory_model}</h3>
+      <h3>{t('requested point')}:{article.requested_point}</h3>
+      <h3>{t('security stock')}: {article.security_stock}</h3>
     </div>
     <div style={{ marginLeft: '2%' }}>
-      <Button variant="warning" onClick={() => editArticle(article)}>Edit Article</Button>
-      <Button variant="danger" style={{ margin: '1%' }} onClick={() => setShowDeleteModal(true)}>Delete Article</Button>
-      <Button onClick={() => navigate('/')} >Back</Button>
+      <Button variant="warning" onClick={() => editArticle(article)}>{t('edit article')}</Button>
+      <Button variant="danger" style={{ margin: '1%' }} onClick={() => setShowDeleteModal(true)}>{t('delete article')}</Button>
+      <Button onClick={() => navigate('/')} >{t('back')}</Button>
     </div>
     <GenericModal
       show={showModal}
