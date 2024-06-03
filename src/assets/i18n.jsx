@@ -14,8 +14,8 @@ const resources = {
       "view all": "ver todo",
       "New article": "Nuevo artículo",
       "Description": "descripción",
-      'estimated demand': "demanda estimada",
-      'inventory model':'modelo de inventario',
+      'estimated_demand': "demanda estimada",
+      'inventory_model':'modelo de inventario',
       'requested point': 'punto de reposición',
       'security stock': 'stock de seguridad',
       'Cost': 'costo',
@@ -24,7 +24,12 @@ const resources = {
       'edit':'editar',
       'back':'volver',
       'delete article':'borrar artículo',
-      'edit article': 'editar artículo '
+      'edit article': 'editar artículo ',
+      'purchase_cost': 'costo de compra',
+      'storage_cost': 'costo de almacenamiento',
+      'order_cost':'costo de orden',
+      'fixed_lot': 'lote fijo',
+      'fixed_interval': 'intervalo fijo'
     }
   }
 };

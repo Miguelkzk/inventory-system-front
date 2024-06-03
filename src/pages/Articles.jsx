@@ -2,31 +2,36 @@ import { Button, Table } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import GenericModal from "../components/GenericModal";
 import { ArticleService } from "../service/Article";
-import { useNavigate } from "react-router-dom";
-import ViewButton from "../components/ViewButton";
 import { useTranslation } from "react-i18next";
+import DeleteButton from "../components/DeleteButton";
+import EditButton from "../components/EditButton";
+import ConfirmModal from "../components/ConfirmModal";
 
 function ArticlesTable() {
-
-  const fields = [
-    { name: 'code', type: 'text', label: 'code' },
-    { name: 'name', type: 'text', label: 'name' },
-    { name: 'description', type: 'text', label: 'description' },
-    { name: 'cost', type: 'text', label: 'cost' },
-    { name: 'current_stock', type: 'text', label: 'Current Stock' },
-    { name: 'estimated_demand', type: 'text', label: 'Estimated demand' },
-    { name: 'inventory_model', type: 'text', label: 'Inventory model' },
-    { name: 'requested_point', type: 'text', label: 'Requested point' },
-    { name: 'security_stock', type: 'text', label: 'Security stock' },
-  ];
 
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState('');
   const [articles, setArticles] = useState([]);
   const [initialValues, setInitialValues] = useState({});
-
+  const [article, setArticle] = useState({})
+  const { t } = useTranslation();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState({})
+  const [fields, setFields] = useState([]);
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+  };
+  const handleConfirmDelete = async () => {
+    try {
+      await ArticleService.deleteArticle(selectedArticle)
+      handleCancelDelete()
+      fetchArticles()
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   const handleSave = async (formData) => {
@@ -39,29 +44,47 @@ function ArticlesTable() {
       console.error(error)
     }
   }
+  const setFormFields = () => {
+    attributesToShow.map((attribute) => {
+      const field = {
+        name: '',
+        type: 'text',
+        label: '',
+      };
+      field.name = attribute;
+      field.label = t(attribute);
+      setFields.push(field)
+    });
+  
+  }
 
   const newArticle = () => {
     setTitleModal('New Article')
     setInitialValues({})
+    setFormFields()
     setShowModal(true)
 
   }
 
   const fetchArticles = async () => {
     const articlesData = await ArticleService.getArticles()
-    console.log(articlesData)
     setArticles(articlesData)
+    setArticle(articlesData[0])
   }
 
   useEffect(() => {
     fetchArticles();
   }, []);
 
-  const navigate = useNavigate();
-  const viewDetail = (article) => {
-    navigate('/article', { state: { article } });
+  const attributesToExclude = ['created_at', 'updated_at', 'id'];
+  const attributesToShow = Object.keys(article).filter(attribute => !attributesToExclude.includes(attribute));
+  const handleDelete = (art) => {
+    setSelectedArticle(art)
+    setTitleModal('Confirmación de eliminación')
+    setShowDeleteModal(true)
+
   }
-  const { t, i18n } = useTranslation();
+
   return (
     <>
       <div className="container mt-3">
@@ -75,29 +98,39 @@ function ArticlesTable() {
           handleFormSubmit={handleSave}
           initialValues={initialValues}
         />
-        <Table hover style={{ fontSize: '18px', marginTop: '1rem' }}>
-          <thead style={{ textAlign: 'center' }} >
+
+        <Table style={{ textAlign: 'center' }}>
+          <thead>
             <tr>
-              <th>{t('code')}</th>
-              <th>{t('name')}</th>
-              <th>{t('view all')}</th>
+              {attributesToShow.map((attribute, index) => (
+                <th key={index}>{t(attribute)}</th>
+              ))}
+              <th>editar</th>
+              <th>borrar</th>
             </tr>
           </thead>
-          <tbody style={{ textAlign: 'center', cursor: 'pointer' }} >
-            {articles.map(article => (
-              <tr key={article.id}>
-                <td>{article.code}</td>
-                <td>{article.name}</td>
-                <td>
-                  <ViewButton onClick={() => viewDetail(article)}>view detail</ViewButton>
-                </td>
+          <tbody >
+            {articles.map((art, artIndex) => (
+              <tr key={artIndex}>
+
+                {attributesToShow.map((attribute) => (
+                  <td key={`${art.id || artIndex}-${attribute}`}>{t(art[attribute])}</td>
+                ))}
+                <td><EditButton /></td>
+                <td><DeleteButton onClick={() => handleDelete(art)} /></td>
               </tr>
             ))}
           </tbody>
-          <tbody>
-          </tbody>
-        </Table >
+        </Table>
       </div>
+      <ConfirmModal
+        show={showDeleteModal}
+        handleClose={handleCancelDelete}
+        title={titleModal}
+        content={`¿Seguro que desea eliminar el artículo con código: ${selectedArticle.code} ?`}
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+      />
     </>
 
   )
