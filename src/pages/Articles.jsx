@@ -6,7 +6,9 @@ import { useTranslation } from "react-i18next";
 import DeleteButton from "../components/DeleteButton";
 import EditButton from "../components/EditButton";
 import ConfirmModal from "../components/ConfirmModal";
+import GenericTable from "../components/GenericTable";
 
+import { AttributesService } from "../service/AttributesModels";
 function ArticlesTable() {
 
   const [showModal, setShowModal] = useState(false);
@@ -17,16 +19,41 @@ function ArticlesTable() {
   const { t } = useTranslation();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState({})
-  var [fields, setFiels] =useState([])
+  var [fields, setFiels] = useState([])
+  const [attributes, setAttributes] = useState([])
+
+
+  useEffect(() => {
+    fetchArticles();
+    fetchAttributes();
+  }, []);
+
+
+  const fetchArticles = async () => {
+    const articlesData = await ArticleService.getArticles()
+    setArticles(articlesData)
+    setArticle(articlesData[0])
+  }
+
+  const fetchAttributes = async () => {
+    const data = await AttributesService.get('Article')
+    setAttributes(data.attributes)
+  }
+  const attributesToExclude = ['created_at', 'updated_at', 'id'];
+  const attributesToShow = Object.keys(article).filter(attribute => !attributesToExclude.includes(attribute));
+
+
   const handleCloseModal = () => {
     setShowModal(false);
     setFiels([]);
-
-
   };
+
+
   const handleCancelDelete = () => {
     setShowDeleteModal(false);
   };
+
+
   const handleConfirmDelete = async () => {
     try {
       await ArticleService.deleteArticle(selectedArticle)
@@ -37,28 +64,42 @@ function ArticlesTable() {
     }
   };
 
+
   const handleSave = async (formData) => {
     console.log(formData)
     try {
       await ArticleService.newArticle(formData)
       fetchArticles()
       handleCloseModal()
-      fields=[];
+      fields = [];
     } catch (error) {
       console.error(error)
     }
   }
+
+
   const setFormFields = () => {
-    attributesToShow.map((attribute) => {
+    attributes.map((attribute) => {
       const field = {
-        name: '',
-        type: 'text',
-        label: '',
+        name: attribute.name,
+        type: '',
+        label: t(attribute.name),
+        options: [],
       };
-      field.name = attribute;
-      field.label = t(attribute);
-      setFiels(prevFiels=>[...prevFiels,field]);
-    });
+      if (attribute.type === "integer" ||attribute.type === "decimal") {
+        field.type = 'number';
+      } else if (attribute.type === "string"){
+        field.type="text";
+      } else if(attribute.type ==="enum"){
+        field.type='select';
+        debugger
+        field.options = attribute.enum_values.map((value) => ({
+          value: value,
+          label: t(value),
+        }));
+      }
+      console.log(field)
+    })
   }
 
   const newArticle = () => {
@@ -68,7 +109,10 @@ function ArticlesTable() {
     console.log(fields)
     setShowModal(true)
 
+
   }
+
+
   const editArticle = (art) => {
     setTitleModal('Edit')
     setSelectedArticle(art)
@@ -78,18 +122,7 @@ function ArticlesTable() {
 
   }
 
-  const fetchArticles = async () => {
-    const articlesData = await ArticleService.getArticles()
-    setArticles(articlesData)
-    setArticle(articlesData[0])
-  }
 
-  useEffect(() => {
-    fetchArticles();
-  }, []);
-
-  const attributesToExclude = ['created_at', 'updated_at', 'id'];
-  const attributesToShow = Object.keys(article).filter(attribute => !attributesToExclude.includes(attribute));
   const handleDelete = (art) => {
     setSelectedArticle(art)
     setTitleModal('Confirmación de eliminación')
@@ -110,29 +143,15 @@ function ArticlesTable() {
           handleFormSubmit={handleSave}
           initialValues={initialValues}
         />
-
-        <Table style={{ textAlign: 'center' }}>
-          <thead>
-            <tr>
-              {attributesToShow.map((attribute, index) => (
-                <th key={index}>{t(attribute)}</th>
-              ))}
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody >
-            {articles.map((art) => (
-              <tr key={art.id}>
-                {attributesToShow.map((attribute, attrIndex) => (
-                  <td key={attrIndex}>{t(art[attribute])}</td>
-                ))}
-                <td><EditButton  onClick={()=>editArticle(art)}/></td>
-                <td><DeleteButton onClick={() => handleDelete(art)} /></td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <GenericTable
+          attributesToShow={attributesToShow}
+          elements={articles}
+          editElement={editArticle}
+          deleteElement={handleDelete}
+          viewElement={null}
+          viewButton={null}
+          textViewButton={null}
+        />
       </div>
       <ConfirmModal
         show={showDeleteModal}
