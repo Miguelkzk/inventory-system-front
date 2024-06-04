@@ -17,9 +17,12 @@ function ArticlesTable() {
   const { t } = useTranslation();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState({})
-  const [fields, setFields] = useState([]);
+  var [fields, setFiels] =useState([])
   const handleCloseModal = () => {
     setShowModal(false);
+    setFiels([]);
+
+
   };
   const handleCancelDelete = () => {
     setShowDeleteModal(false);
@@ -40,6 +43,7 @@ function ArticlesTable() {
       await ArticleService.newArticle(formData)
       fetchArticles()
       handleCloseModal()
+      fields=[];
     } catch (error) {
       console.error(error)
     }
@@ -53,14 +57,23 @@ function ArticlesTable() {
       };
       field.name = attribute;
       field.label = t(attribute);
-      setFields.push(field)
+      setFiels(prevFiels=>[...prevFiels,field]);
     });
-  
+
   }
 
   const newArticle = () => {
     setTitleModal('New Article')
     setInitialValues({})
+    setFormFields()
+    console.log(fields)
+    setShowModal(true)
+
+  }
+  const editArticle = (art) => {
+    setTitleModal('Edit')
+    setSelectedArticle(art)
+    setInitialValues(art)
     setFormFields()
     setShowModal(true)
 
@@ -114,9 +127,9 @@ function ArticlesTable() {
               <tr key={artIndex}>
 
                 {attributesToShow.map((attribute) => (
-                  <td key={`${art.id || artIndex}-${attribute}`}>{t(art[attribute])}</td>
+                  <td key={`${artIndex}-${attribute}`}>{t(art[attribute])}</td>
                 ))}
-                <td><EditButton /></td>
+                <td><EditButton  onClick={()=>editArticle(art)}/></td>
                 <td><DeleteButton onClick={() => handleDelete(art)} /></td>
               </tr>
             ))}
