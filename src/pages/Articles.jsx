@@ -55,7 +55,6 @@ function ArticlesTable() {
       field.label = t(attribute);
       setFields.push(field)
     });
-  
   }
 
   const newArticle = () => {
@@ -105,16 +104,15 @@ function ArticlesTable() {
               {attributesToShow.map((attribute, index) => (
                 <th key={index}>{t(attribute)}</th>
               ))}
-              <th>editar</th>
-              <th>borrar</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody >
-            {articles.map((art, artIndex) => (
-              <tr key={artIndex}>
-
-                {attributesToShow.map((attribute) => (
-                  <td key={`${art.id || artIndex}-${attribute}`}>{t(art[attribute])}</td>
+            {articles.map((art) => (
+              <tr key={art.id}>
+                {attributesToShow.map((attribute, attrIndex) => (
+                  <td key={attrIndex}>{t(art[attribute])}</td>
                 ))}
                 <td><EditButton /></td>
                 <td><DeleteButton onClick={() => handleDelete(art)} /></td>
