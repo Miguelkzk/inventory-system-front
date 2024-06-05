@@ -1,21 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
-const GenericForm = ({ fields, onSubmit, initialValues }) => {
-  const [formData, setFormData] = useState(
-    fields.reduce((acc, field) => {
-      acc[field.name] = initialValues[field.name] || '';
-      return acc;
-    }, {})
-  );
+const GenericForm = ({ attributes, onSubmit, initialValues }) => {
+  const [fields, setFields] = useState([]);
+  const [formData, setFormData] = useState({});
+  const { t } = useTranslation();
+  const setFormFields = () => {
+    const newFields = attributes.map((attribute) => {
+      const field = {
+        name: attribute.name,
+        type: '',
+        label: t(attribute.name),
+        options: [],
+      };
+
+      if (attribute.type === 'integer' || attribute.type === 'decimal') {
+        field.type = 'number';
+      } else if (attribute.type === 'string') {
+        field.type = 'text';
+      } else if (attribute.type === 'enum') {
+        field.type = 'select';
+        let keys = Object.keys(attribute.enum_values);
+        for (let i = 0; i < keys.length; i++) {
+          let key = keys[i];
+          const enumValue = {
+            value: key,
+            label: t(key),
+          };
+          field.options.push(enumValue);
+        }
+      }
+
+      return field;
+    });
+
+    setFields(newFields);
+  };
 
   useEffect(() => {
-    setFormData(
-      fields.reduce((acc, field) => {
-        acc[field.name] = initialValues[field.name] || '';
-        return acc;
-      }, {})
-    );
+    setFormFields();
+  }, [attributes]);
+
+  useEffect(() => {
+    const initialFormData = fields.reduce((acc, field) => {
+      acc[field.name] = initialValues[field.name] || '';
+      return acc;
+    }, {});
+    setFormData(initialFormData);
   }, [initialValues, fields]);
 
   const handleChange = (e) => {
@@ -37,18 +69,33 @@ const GenericForm = ({ fields, onSubmit, initialValues }) => {
         <div key={field.name} style={{ marginBottom: '10px', width: '100%', display: 'flex', justifyContent: 'center' }}>
           <label style={{ width: '80%' }}>
             {field.label}
-            <input
-              type={field.type}
-              name={field.name}
-              value={formData[field.name]}
-              onChange={handleChange}
-              style={{ display: 'block', width: '100%', padding: '8px', margin: '5px 0' }}
-            />
+            {field.type === 'select' ? (
+              <select
+                name={field.name}
+                value={formData[field.name] || ''}
+                onChange={handleChange}
+                style={{ display: 'block', width: '100%', padding: '8px', margin: '5px 0' }}
+              >
+                {field.options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                type={field.type}
+                name={field.name}
+                value={formData[field.name] || ''}
+                onChange={handleChange}
+                style={{ display: 'block', width: '100%', padding: '8px', margin: '5px 0' }}
+              />
+            )}
           </label>
         </div>
       ))}
-      <div className='d-flex justify-content-center'>
-        <Button type="submit"> Submit</Button>
+      <div className="d-flex justify-content-center">
+        <Button type="submit">Submit</Button>
       </div>
     </form>
   );

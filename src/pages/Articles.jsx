@@ -1,5 +1,5 @@
 import { Button, Table } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useDebugValue, useEffect, useState } from "react";
 import GenericModal from "../components/GenericModal";
 import { ArticleService } from "../service/Article";
 import { useTranslation } from "react-i18next";
@@ -19,7 +19,6 @@ function ArticlesTable() {
   const { t } = useTranslation();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState({})
-  var [fields, setFiels] = useState([])
   const [attributes, setAttributes] = useState([])
 
 
@@ -45,7 +44,7 @@ function ArticlesTable() {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setFiels([]);
+    setInitialValues("")
   };
 
 
@@ -78,38 +77,9 @@ function ArticlesTable() {
   }
 
 
-  const setFormFields = () => {
-    attributes.map((attribute) => {
-      const field = {
-        name: attribute.name,
-        type: '',
-        label: t(attribute.name),
-        options: [],
-      };
-      if (attribute.type === "integer" ||attribute.type === "decimal") {
-        field.type = 'number';
-      } else if (attribute.type === "string"){
-        field.type="text";
-      } else if(attribute.type ==="enum"){
-        field.type='select';
-        debugger
-        field.options = attribute.enum_values.map((value) => ({
-          value: value,
-          label: t(value),
-        }));
-      }
-      console.log(field)
-    })
-  }
-
   const newArticle = () => {
     setTitleModal('New Article')
-    setInitialValues({})
-    setFormFields()
-    console.log(fields)
     setShowModal(true)
-
-
   }
 
 
@@ -117,7 +87,6 @@ function ArticlesTable() {
     setTitleModal('Edit')
     setSelectedArticle(art)
     setInitialValues(art)
-    setFormFields()
     setShowModal(true)
 
   }
@@ -139,7 +108,7 @@ function ArticlesTable() {
           show={showModal}
           handleClose={handleCloseModal}
           title={titleModal}
-          fields={fields}
+          attributes={attributes}
           handleFormSubmit={handleSave}
           initialValues={initialValues}
         />
