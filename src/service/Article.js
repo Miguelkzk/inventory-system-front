@@ -5,6 +5,11 @@ export const ArticleService = {
     const data = await response.json();
     return data;
   },
+  getAttributes: async ()=>{
+    const response = await fetch(`${BASE_URL}/articles/attributes_description`);
+    const data = await response.json();
+  return data
+  },
   newArticle: async (article) => {
     const response = await fetch(`${BASE_URL}/articles/`,
       {

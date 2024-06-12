@@ -29,7 +29,15 @@ const resources = {
       'storage_cost': 'costo de almacenamiento',
       'order_cost':'costo de orden',
       'fixed_lot': 'lote fijo',
-      'fixed_interval': 'intervalo fijo'
+      'fixed_interval': 'intervalo fijo',
+      'period_count': 'cantidad de períodos',
+      'error_calculation_method': 'método para calcular error',
+      'acceptable_error': 'error aceptable',
+      'probability': 'probabilidad',
+      'quadratic': 'cuadrático',
+      'absolute_percentage':'porcentaje absoluto',
+      'absolute_deviation':'desviación abosoluta'
+
     }
   }
 };

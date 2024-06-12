@@ -35,10 +35,10 @@ function ArticlesTable() {
   }
 
   const fetchAttributes = async () => {
-    const data = await AttributesService.get('Article')
-    setAttributes(data.attributes)
+    const data = await ArticleService.getAttributes();
+    setAttributes(data)
   }
-  const attributesToExclude = ['created_at', 'updated_at', 'id'];
+  const attributesToExclude = ['created_at', 'updated_at', 'id', 'default_provider_id', 'article_family_id'];
   const attributesToShow = Object.keys(article).filter(attribute => !attributesToExclude.includes(attribute));
 
 
@@ -55,7 +55,7 @@ function ArticlesTable() {
 
   const handleConfirmDelete = async () => {
     try {
-      await ArticleService.deleteArticle(selectedArticle)
+      await ArticleService.deleteArticle(selectedArticle,)
       handleCancelDelete()
       fetchArticles()
     } catch (error) {
@@ -65,26 +65,38 @@ function ArticlesTable() {
 
 
   const handleSave = async (formData) => {
-    console.log(formData)
-    try {
-      await ArticleService.newArticle(formData)
-      fetchArticles()
-      handleCloseModal()
-      fields = [];
-    } catch (error) {
-      console.error(error)
+    if (Object.keys(initialValues).length === 0 ){
+      console.log("creo uno nuevo")
+      try {
+        await ArticleService.newArticle(formData)
+        fetchArticles()
+        handleCloseModal()
+        setInitialValues("")
+      } catch (error) {
+        console.error(error)
+      }
+    }else{
+      try {
+        await ArticleService.updateArticle(formData,selectedArticle)
+        handleCloseModal()
+        setInitialValues("")
+        fetchArticles()
+      } catch (error) {
+        console.error(error)
+      }
     }
+
   }
 
 
   const newArticle = () => {
-    setTitleModal('New Article')
+    setTitleModal('Nuevo artículo')
     setShowModal(true)
   }
 
 
   const editArticle = (art) => {
-    setTitleModal('Edit')
+    setTitleModal('Editar artículo')
     setSelectedArticle(art)
     setInitialValues(art)
     setShowModal(true)
@@ -101,7 +113,8 @@ function ArticlesTable() {
 
   return (
     <>
-      <div className="container mt-3">
+      <div className="mt-3" >
+        <div style={{width: '100%'}}>
         <Button onClick={() => newArticle()}>{t('New article')}</Button>
 
         <GenericModal
@@ -118,9 +131,16 @@ function ArticlesTable() {
           editElement={editArticle}
           deleteElement={handleDelete}
           viewElement={null}
-          viewButton={null}
-          textViewButton={null}
+          viewButton={true}
+          textViewButton={"Demanda historica"}
+          showAdditionalButton1 ={true}
+          textadditionalButton1={"Cargar parametros generales"}
+          showAdditionalButton2={true}
+          textadditionalButton2={"Predecir demanda"}
+
+
         />
+        </div>
       </div>
       <ConfirmModal
         show={showDeleteModal}
