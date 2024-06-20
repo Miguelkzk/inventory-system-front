@@ -1,7 +1,7 @@
 
 import EditButton from "./Buttons/EditButton";
 import DeleteButton from "./Buttons/DeleteButton";
-import ViewButton from "./ViewButton";
+import ViewButton from "./Buttons/ViewButton";
 import { Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import GearButton from "./Buttons/GearButton";
@@ -9,7 +9,7 @@ import GraphButton from "./Buttons/GraphButton";
 import AddButton from "./Buttons/AddButton";
 
 function GenericTable({ attributesToShow, elements, editElement, deleteElement, viewElement,
-     viewButton, textViewButton, showGButton1, textGButton1, showGButton2, textGButton2, showMButton, textMButton }) {
+     viewButton, textViewButton, showGButton1, textGButton1, showGButton2, textGButton2, showMButton, textMButton, accionshowGButton1 }) {
     const { t } = useTranslation();
     return (
         <>
@@ -35,7 +35,7 @@ function GenericTable({ attributesToShow, elements, editElement, deleteElement, 
                                 <td key={attrIndex}>{t(element[attribute])}</td>
                             ))}
                             {viewButton && <td><ViewButton onClick={() => viewElement(element)} /></td>}
-                            {showGButton1 && <td><GearButton onClick={()=>console.log("implementar")}/></td>}
+                            {showGButton1 && <td><GearButton onClick={()=>accionshowGButton1(element)}/></td>}
                             {showGButton2 && <td><GraphButton /></td>}
                             {showMButton && <td><AddButton/> </td>}
                             <td><EditButton onClick={() => editElement(element)} /></td>

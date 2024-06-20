@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-import GenericForm from './GenericForm';
+import GenericForm from './GenericAbmForm';
 
 function GenericModal({ show, handleClose, title, attributes, handleFormSubmit, initialValues }) {
   return (

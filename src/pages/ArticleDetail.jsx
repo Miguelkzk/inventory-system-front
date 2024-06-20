@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ArticleService } from "../service/Article";
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import GenericModal from "../components/GenericModal";
+import GenericModal from "../components/GenericAbmModal";
 import ConfirmModal from "../components/ConfirmModal";
 import { useTranslation } from "react-i18next";
 

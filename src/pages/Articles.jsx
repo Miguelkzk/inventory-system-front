@@ -1,6 +1,6 @@
 import { Button, Table } from "react-bootstrap";
 import { useDebugValue, useEffect, useState } from "react";
-import GenericModal from "../components/GenericModal";
+import GenericModal from "../components/GenericAbmModal";
 import { ArticleService } from "../service/Article";
 import { useTranslation } from "react-i18next";
 import DeleteButton from "../components/Buttons/DeleteButton";
@@ -9,6 +9,7 @@ import ConfirmModal from "../components/ConfirmModal";
 import GenericTable from "../components/GenericTable";
 
 import { AttributesService } from "../service/AttributesModels";
+import GeneralParamsModal from "../components/Article/GeneralParamsModal";
 function ArticlesTable() {
 
   const [showModal, setShowModal] = useState(false);
@@ -20,7 +21,7 @@ function ArticlesTable() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState({})
   const [attributes, setAttributes] = useState([])
-
+  const [showGPModal, setshowGPModal] =useState(false);
 
   useEffect(() => {
     fetchArticles();
@@ -46,6 +47,7 @@ function ArticlesTable() {
 
   const handleCloseModal = () => {
     setShowModal(false);
+    setshowGPModal(false);
     setInitialValues("")
   };
 
@@ -102,7 +104,6 @@ function ArticlesTable() {
     setSelectedArticle(art)
     setInitialValues(art)
     setShowModal(true)
-
   }
 
 
@@ -110,7 +111,11 @@ function ArticlesTable() {
     setSelectedArticle(art)
     setTitleModal('Confirmación de eliminación')
     setShowDeleteModal(true)
+  }
 
+  const generalParams = (art) =>{
+    setSelectedArticle(art)
+    setshowGPModal(true)
   }
 
   return (
@@ -137,6 +142,7 @@ function ArticlesTable() {
           textViewButton={"Demanda historica"}
           showGButton1 ={true}
           textGButton1={"Parametros generales"}
+          accionshowGButton1 ={generalParams}
           showGButton2={true}
           textGButton2={"Predecir demanda"}
           showMButton={true}
@@ -153,6 +159,11 @@ function ArticlesTable() {
         content={`¿Seguro que desea eliminar el artículo con código: ${selectedArticle.code} ?`}
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
+      />
+      <GeneralParamsModal
+      show={showGPModal}
+      handleClose={handleCloseModal}
+      initialValues={selectedArticle}
       />
     </>
 
