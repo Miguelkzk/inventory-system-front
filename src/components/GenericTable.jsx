@@ -1,14 +1,15 @@
 
-import EditButton from "./EditButton";
-import DeleteButton from "./DeleteButton";
+import EditButton from "./Buttons/EditButton";
+import DeleteButton from "./Buttons/DeleteButton";
 import ViewButton from "./ViewButton";
 import { Table } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import GearButton from "./gearButton";
+import GearButton from "./Buttons/GearButton";
+import GraphButton from "./Buttons/GraphButton";
+import AddButton from "./Buttons/AddButton";
 
 function GenericTable({ attributesToShow, elements, editElement, deleteElement, viewElement,
-     viewButton, textViewButton, additionalButton3,  showGearButton1,  showGearButton2, showAdditionalButton3,
-     textGearButton1,textGearButton2, textadditionalButton3 }) {
+     viewButton, textViewButton, showGButton1, textGButton1, showGButton2, textGButton2, showMButton, textMButton }) {
     const { t } = useTranslation();
     return (
         <>
@@ -19,9 +20,9 @@ function GenericTable({ attributesToShow, elements, editElement, deleteElement, 
                             <th key={index}>{t(attribute)}</th>
                         ))}
                         {viewButton && <th>{textViewButton}</th>}
-                        {showGearButton1 && <th>{textadditionalButton1}</th>}
-                        {showGearButton2 && <th>{textadditionalButton2}</th>}
-                        {showAdditionalButton3 && <th>{textadditionalButton3}</th>}
+                        {showGButton1 && <th>{textGButton1}</th>}
+                        {showGButton2 && <th>{textGButton2}</th>}
+                        {showMButton && <th>{textMButton}</th>}
                         <th></th>
                         <th></th>
 
@@ -34,9 +35,9 @@ function GenericTable({ attributesToShow, elements, editElement, deleteElement, 
                                 <td key={attrIndex}>{t(element[attribute])}</td>
                             ))}
                             {viewButton && <td><ViewButton onClick={() => viewElement(element)} /></td>}
-                            {showGearButton1 && <td><GearButton onClick={()=>console.log("implementar")}/></td>}
-                            {showGearButton2 && <td></td>}
-                            {showAdditionalButton3 && <td></td>}
+                            {showGButton1 && <td><GearButton onClick={()=>console.log("implementar")}/></td>}
+                            {showGButton2 && <td><GraphButton /></td>}
+                            {showMButton && <td><AddButton/> </td>}
                             <td><EditButton onClick={() => editElement(element)} /></td>
                             <td><DeleteButton onClick={() => deleteElement(element)} /></td>
 

@@ -3,8 +3,8 @@ import { useDebugValue, useEffect, useState } from "react";
 import GenericModal from "../components/GenericModal";
 import { ArticleService } from "../service/Article";
 import { useTranslation } from "react-i18next";
-import DeleteButton from "../components/DeleteButton";
-import EditButton from "../components/EditButton";
+import DeleteButton from "../components/Buttons/DeleteButton";
+import EditButton from "../components/Buttons/EditButton";
 import ConfirmModal from "../components/ConfirmModal";
 import GenericTable from "../components/GenericTable";
 
@@ -31,6 +31,7 @@ function ArticlesTable() {
   const fetchArticles = async () => {
     const articlesData = await ArticleService.getArticles()
     setArticles(articlesData)
+    console.log(articlesData)
     setArticle(articlesData[0])
   }
 
@@ -38,7 +39,8 @@ function ArticlesTable() {
     const data = await ArticleService.getAttributes();
     setAttributes(data)
   }
-  const attributesToExclude = ['created_at', 'updated_at', 'id', 'default_provider_id', 'article_family_id'];
+  const attributesToExclude = ['created_at', 'updated_at', 'id', 'default_provider_id', 'article_family_id','storage_cost','demand_standard_deviation',
+    'demand_acceptable_error','deleted_at', 'estimated_demand','demand_period_count'];
   const attributesToShow = Object.keys(article).filter(attribute => !attributesToExclude.includes(attribute));
 
 
@@ -133,10 +135,12 @@ function ArticlesTable() {
           viewElement={null}
           viewButton={true}
           textViewButton={"Demanda historica"}
-          showAdditionalButton1 ={true}
-          textadditionalButton1={"Cargar parametros generales"}
-          showAdditionalButton2={true}
-          textadditionalButton2={"Predecir demanda"}
+          showGButton1 ={true}
+          textGButton1={"Parametros generales"}
+          showGButton2={true}
+          textGButton2={"Predecir demanda"}
+          showMButton={true}
+          textMButton={'Agregar orden de compra'}
 
 
         />
