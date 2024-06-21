@@ -88,7 +88,7 @@ function DemandPrediction({ show, handleClose, initialValues }) {
                         <hr />
                         {showPMPform && (
                             <div>
-                                <h4>Párametros promedio móvil ponderaedo</h4>
+                                <h4>Párametros promedio móvil ponderado</h4>
                                 <WeightedAverage />
                                 <hr />
                             </div>
