@@ -10,6 +10,7 @@ import GenericTable from "../components/GenericTable";
 
 import { AttributesService } from "../service/AttributesModels";
 import GeneralParamsModal from "../components/Article/GeneralParamsModal";
+import DemandPrediction from "../components/Article/DemandPrediction";
 function ArticlesTable() {
 
   const [showModal, setShowModal] = useState(false);
@@ -22,7 +23,7 @@ function ArticlesTable() {
   const [selectedArticle, setSelectedArticle] = useState({})
   const [attributes, setAttributes] = useState([])
   const [showGPModal, setshowGPModal] =useState(false);
-
+  const [showPredictDemand, setshowPredictDemand]= useState(false);
   useEffect(() => {
     fetchArticles();
     fetchAttributes();
@@ -32,7 +33,6 @@ function ArticlesTable() {
   const fetchArticles = async () => {
     const articlesData = await ArticleService.getArticles()
     setArticles(articlesData)
-    console.log(articlesData)
     setArticle(articlesData[0])
   }
 
@@ -49,6 +49,7 @@ function ArticlesTable() {
     setShowModal(false);
     setshowGPModal(false);
     setInitialValues("")
+    setshowPredictDemand(false)
   };
 
 
@@ -117,7 +118,10 @@ function ArticlesTable() {
     setSelectedArticle(art)
     setshowGPModal(true)
   }
-
+  const predictDemand = (art) =>{
+    setSelectedArticle(art)
+    setshowPredictDemand(true)
+  }
   return (
     <>
       <div className="mt-3" >
@@ -142,13 +146,12 @@ function ArticlesTable() {
           textViewButton={"Demanda historica"}
           showGButton1 ={true}
           textGButton1={"Parametros generales"}
-          accionshowGButton1 ={generalParams}
+          actionshowGButton1 ={generalParams}
           showGButton2={true}
           textGButton2={"Predecir demanda"}
+          actionShowGButton={predictDemand}
           showMButton={true}
           textMButton={'Agregar orden de compra'}
-
-
         />
         </div>
       </div>
@@ -165,6 +168,13 @@ function ArticlesTable() {
       handleClose={handleCloseModal}
       initialValues={selectedArticle}
       />
+
+      <DemandPrediction
+      show={showPredictDemand}
+      handleClose={handleCloseModal}
+      initialValues={selectedArticle}
+      />
+
     </>
 
   )
