@@ -38,8 +38,11 @@ const resources = {
       'absolute_percentage':'porcentaje absoluto',
       'absolute_deviation':'desviación abosoluta',
       'revision_interval':'intervalo de revisión',
-      'demand_error_calculation_method': 'método para calcular error'
-
+      'demand_error_calculation_method': 'método para calcular error',
+      'pending': 'pendiente',
+      'sent':'enviada',
+      'finished':'finalizada',
+      'quantity':'cantidad'
     }
   }
 };

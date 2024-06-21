@@ -28,7 +28,7 @@ function ArticlesTable() {
     fetchArticles();
     fetchAttributes();
   }, []);
-
+  console.log(articles)
 
   const fetchArticles = async () => {
     const articlesData = await ArticleService.getArticles()
@@ -122,6 +122,11 @@ function ArticlesTable() {
     setSelectedArticle(art)
     setshowPredictDemand(true)
   }
+
+  const viewHistoricalDemand = (element)=>{
+    setSelectedArticle(element)
+    
+  }
   return (
     <>
       <div className="mt-3" >
@@ -141,7 +146,7 @@ function ArticlesTable() {
           elements={articles}
           editElement={editArticle}
           deleteElement={handleDelete}
-          viewElement={null}
+          viewElement={viewHistoricalDemand}
           viewButton={true}
           textViewButton={"Demanda historica"}
           showGButton1 ={true}

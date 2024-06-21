@@ -38,8 +38,12 @@ function GenericTable({ attributesToShow, elements, editElement, deleteElement, 
                             {showGButton1 && <td><GearButton onClick={()=>actionshowGButton1(element)}/></td>}
                             {showGButton2 && <td><GraphButton onClick={()=>actionShowGButton(element)}/></td>}
                             {showMButton && <td><AddButton/> </td>}
-                            <td><EditButton onClick={() => editElement(element)} /></td>
-                            <td><DeleteButton onClick={() => deleteElement(element)} /></td>
+                            {element.deleted_at === null && (
+                                <>
+                                <td><EditButton onClick={() => editElement(element)} /></td>
+                                <td><DeleteButton onClick={() => deleteElement(element)} /></td>
+                                </>
+                            )}
 
                         </tr>
                     ))}

@@ -17,7 +17,10 @@ function NavBar() {
       <Navbar bg="primary" data-bs-theme="dark">
         <span style={{ marginLeft: '1%', cursor: 'pointer' }}>
           <Navbar.Brand onClick={() => navigate('/')} >{t('Articles')}</Navbar.Brand>
-          <Navbar.Brand onClick={() => navigate('/suppliers')}  >{t('Suppliers')}</Navbar.Brand>
+          <Navbar.Brand onClick={() => navigate('/sales')}  >{t('Ventas')}</Navbar.Brand>
+          <Navbar.Brand onClick={() => navigate('/pucharseOrders')}  >{t('Ordenes de compra')}</Navbar.Brand>
+
+
         </span>
       </Navbar>
     </>
