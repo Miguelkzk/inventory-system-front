@@ -4,27 +4,36 @@ import { useDebugValue, useEffect, useState } from "react";
 import WeightedAverage from "./WeightedAverage";
 
 function DemandPrediction({ show, handleClose, initialValues }) {
-    const [formData, setFormData] = useState(initialValues)
     const [showPMform, setShowPMform] = useState(false);
     const [showPMPform, setShowPMPform] = useState(false);
     const [showPMSEform, setShowPMPSform] = useState(false);
     const [showRLform, setShowRLform] = useState(false);
     const [showResults, setShowResults] = useState(false);
+    const [ponderaciones, setPonderaciones] = useState([]);
+
+    const [formData, setFormData] = useState({
+        demand_period_count: 0,
+        demand_error_calculation_method: 0,
+        demand_acceptable_error: 0
+    });
+
     useEffect(() => {
-        setFormData(initialValues);
-        setShowResults(false);
-    }, [initialValues])
+        if (initialValues) {
+            setFormData({
+                demand_period_count: initialValues.demand_period_count || '',
+                demand_error_calculation_method: initialValues.demand_error_calculation_method || '',
+                demand_acceptable_error: initialValues.demand_acceptable_error || ''
+            });
+        }
+    }, [initialValues]);
 
-
-    const handleChange = (e) => {
-        const { name, value, checked, type } = e.target;
-        const fieldValue = type === 'checkbox' ? checked : value;
+    const handleChangeGeneralParams = (e) => {
+        const { name, value } = e.target;
         setFormData({
             ...formData,
             [name]: value
         });
     };
-
     useEffect(() => {
         if (!show) {
             setShowResults(false);
@@ -33,15 +42,54 @@ function DemandPrediction({ show, handleClose, initialValues }) {
             setShowPMPSform(false);
             setShowRLform(false);
         }
+        setFormData({
+            demand_period_count: 0,
+            demand_error_calculation_method: 0,
+            demand_acceptable_error: 0
+        });
+        setPonderaciones([]);
+        setPmseParams({
+            predicted_demand_for_the_previous_period: '',
+            alpha: ''
+        })
     }, [show]);
 
     const handleSubmit = () => {
+        if (showPMform) {
+            console.log('Parametros generales', formData)
+        }
+        if (showPMPform) {
+            console.log('Ponderaciones:', ponderaciones);
+        }
+        if (showPMSEform) {
+            console.log('Suavizado', pmseParams)
+        }
+        if (showRLform) {
+            console.log('Parametros generales', formData)
+
+        }
         setShowResults(true)
     }
+
+    const handlePonderacionesChange = (newPonderaciones) => {
+        setPonderaciones(newPonderaciones);
+    };
+    const [pmseParams, setPmseParams] = useState({
+        predicted_demand_for_the_previous_period: '',
+        alpha: ''
+    });
+    const handleChangePmseParams = (e) => {
+        const { name, value } = e.target;
+        setPmseParams({
+            ...pmseParams,
+            [name]: value
+        });
+    };
+
     return (<>
         <Modal show={show} onHide={handleClose} className="modal-lg"  >
             <Modal.Header closeButton>
-                <Modal.Title style={{fontSize:'30px'}}>Predecir Demanda</Modal.Title>
+                <Modal.Title style={{ fontSize: '30px' }}>Predecir Demanda</Modal.Title>
             </Modal.Header>
             <Modal.Body style={{ Width: '80%' }}>
                 <div style={{ display: 'flex', height: '100%', flexDirection: 'row' }}>
@@ -49,7 +97,7 @@ function DemandPrediction({ show, handleClose, initialValues }) {
                         <h3>Parámetros generales</h3>
                         <GeneralParamsForm
                             formData={formData}
-                            handleChange={handleChange}
+                            handleChange={handleChangeGeneralParams}
                         />
                         <hr />
                         <h4>Seleccionar los métodos para la predicción</h4>
@@ -89,7 +137,7 @@ function DemandPrediction({ show, handleClose, initialValues }) {
                         {showPMPform && (
                             <div>
                                 <h4>Párametros promedio móvil ponderado</h4>
-                                <WeightedAverage />
+                                <WeightedAverage onPonderacionesChange={handlePonderacionesChange} />
                                 <hr />
                             </div>
 
@@ -103,12 +151,18 @@ function DemandPrediction({ show, handleClose, initialValues }) {
                                             <Form.Label >Prediccion del ultimo periodo</Form.Label>
                                             <Form.Control
                                                 type="number"
+                                                name="predicted_demand_for_the_previous_period"
+                                                value={pmseParams.predicted_demand_for_the_previous_period}
+                                                onChange={handleChangePmseParams}
                                             />
                                         </Form.Group>
-                                        <Form.Group  style={{width:'45%'}}>
+                                        <Form.Group style={{ width: '45%' }}>
                                             <Form.Label>Coeficiente de suavizacion</Form.Label>
                                             <Form.Control
                                                 type="number"
+                                                name="alpha"
+                                                value={pmseParams.alpha}
+                                                onChange={handleChangePmseParams}
                                             />
                                         </Form.Group>
                                     </div>
@@ -121,7 +175,7 @@ function DemandPrediction({ show, handleClose, initialValues }) {
                         </div>
                     </div>
                     {showResults && (
-                        <div style={{ flex: 1, paddingLeft: '15px', overflowY: 'auto', width:'50%' }}>
+                        <div style={{ flex: 1, paddingLeft: '15px', overflowY: 'auto', width: '50%' }}>
                             <h4> Resultado de prediccion</h4>
                             {showPMform && <div>
                                 <hr />

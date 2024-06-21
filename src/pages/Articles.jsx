@@ -11,6 +11,7 @@ import GenericTable from "../components/GenericTable";
 import { AttributesService } from "../service/AttributesModels";
 import GeneralParamsModal from "../components/Article/GeneralParamsModal";
 import DemandPrediction from "../components/Article/DemandPrediction";
+import { useNavigate } from "react-router-dom";
 function ArticlesTable() {
 
   const [showModal, setShowModal] = useState(false);
@@ -24,11 +25,13 @@ function ArticlesTable() {
   const [attributes, setAttributes] = useState([])
   const [showGPModal, setshowGPModal] =useState(false);
   const [showPredictDemand, setshowPredictDemand]= useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetchArticles();
     fetchAttributes();
   }, []);
-  console.log(articles)
+
 
   const fetchArticles = async () => {
     const articlesData = await ArticleService.getArticles()
@@ -50,6 +53,7 @@ function ArticlesTable() {
     setshowGPModal(false);
     setInitialValues("")
     setshowPredictDemand(false)
+    fetchArticles();
   };
 
 
@@ -71,7 +75,6 @@ function ArticlesTable() {
 
   const handleSave = async (formData) => {
     if (Object.keys(initialValues).length === 0 ){
-      console.log("creo uno nuevo")
       try {
         await ArticleService.newArticle(formData)
         fetchArticles()
@@ -125,7 +128,8 @@ function ArticlesTable() {
 
   const viewHistoricalDemand = (element)=>{
     setSelectedArticle(element)
-    
+
+    navigate("/historical-demand", { state: { article: element } });
   }
   return (
     <>

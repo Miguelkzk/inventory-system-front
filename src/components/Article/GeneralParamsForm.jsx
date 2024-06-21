@@ -1,6 +1,7 @@
 import { Form } from "react-bootstrap"
 
 const GeneralParamsForm = ({formData, handleChange,})=>{
+    
     return(
         <Form>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -35,9 +36,9 @@ const GeneralParamsForm = ({formData, handleChange,})=>{
                 value={formData.demand_error_calculation_method}
                 onChange={handleChange}
             >
-                <option value="0">Desviacion absoluta</option>
-                <option value="1">Quadratica</option>
-                <option value="2">Porcentaje absoluto</option>
+                <option value="absolute_deviation">Desviacion absoluta</option>
+                <option value="quadratic">Quadratica</option>
+                <option value="absolute_percentage">Porcentaje absoluto</option>
             </Form.Control>
         </Form.Group>
         <Form.Group style={{ width: '45%' }}>

@@ -2,18 +2,26 @@ import { useState } from "react";
 import { Button, Form, Table } from "react-bootstrap";
 import DeleteButton2 from "../Buttons/DeleteButton2";
 
-function WeightedAverage() {
+function WeightedAverage({onPonderacionesChange}) {
     const [period, setPeriod] = useState('');
     const [ponderacion, setPonderacion] = useState('');
     const [ponderaciones, setPonderaciones] = useState([]);
 
     const handleAddPonderacion = () => {
         if (period && ponderacion) {
-            setPonderaciones([...ponderaciones, { period, ponderacion }]);
+            const newPonderaciones = [...ponderaciones, { period, ponderacion }];
+            setPonderaciones(newPonderaciones);
+            onPonderacionesChange(newPonderaciones); 
             setPeriod('');
             setPonderacion('');
         }
     };
+    const handleDeletePonderacion = (index) => {
+        const newPonderaciones = ponderaciones.filter((_, i) => i !== index);
+        setPonderaciones(newPonderaciones);
+        onPonderacionesChange(newPonderaciones); 
+    };
+
 
     return (
         <div>
@@ -55,7 +63,7 @@ function WeightedAverage() {
                                 <td>{item.ponderacion}</td>
                                 <td style={{ verticalAlign: 'middle' }}>
                                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'initial', height: '100%' }}>
-                                        <DeleteButton2 />
+                                    <DeleteButton2 onClick={() => handleDeletePonderacion(index)} />
                                     </div>
                                 </td>
                             </tr>
