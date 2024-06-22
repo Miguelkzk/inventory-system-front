@@ -42,11 +42,6 @@ function DemandPrediction({ show, handleClose, initialValues }) {
             setShowPMPSform(false);
             setShowRLform(false);
         }
-        setFormData({
-            demand_period_count: 0,
-            demand_error_calculation_method: 0,
-            demand_acceptable_error: 0
-        });
         setPonderaciones([]);
         setPmseParams({
             predicted_demand_for_the_previous_period: '',
