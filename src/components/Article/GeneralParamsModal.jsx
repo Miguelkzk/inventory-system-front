@@ -7,7 +7,8 @@ function GeneralParamsModal({ show, handleClose, initialValues }) {
     const [formData, setFormData] = useState({
         demand_period_count: 0,
         demand_error_calculation_method: 0,
-        demand_acceptable_error: 0
+        demand_acceptable_error: 0,
+        type_of_period: ''
     });
 
     useEffect(() => {
@@ -15,7 +16,8 @@ function GeneralParamsModal({ show, handleClose, initialValues }) {
             setFormData({
                 demand_period_count: initialValues.demand_period_count || '',
                 demand_error_calculation_method: initialValues.demand_error_calculation_method || '',
-                demand_acceptable_error: initialValues.demand_acceptable_error || ''
+                demand_acceptable_error: initialValues.demand_acceptable_error || '',
+                type_of_period: 'month'
             });
         }
     }, [initialValues]);

@@ -20,10 +20,13 @@ const GeneralParamsForm = ({formData, handleChange,})=>{
                 <Form.Control
                     as="select"
                     name='period'
+                    value={formData.type_of_period}
+                    onChange={handleChange}
                 >
                     <option value="week">Semanal</option>
                     <option value="month">Mensual</option>
                     <option value="year">Anual</option>
+                    
                 </Form.Control>
             </Form.Group>
         </div>

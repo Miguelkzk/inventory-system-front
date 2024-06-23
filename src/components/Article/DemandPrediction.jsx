@@ -2,6 +2,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 import GeneralParamsForm from "./GeneralParamsForm";
 import { useDebugValue, useEffect, useState } from "react";
 import WeightedAverage from "./WeightedAverage";
+import { ArticleService } from "../../service/Article";
 
 function DemandPrediction({ show, handleClose, initialValues }) {
     const [showPMform, setShowPMform] = useState(false);
@@ -14,7 +15,8 @@ function DemandPrediction({ show, handleClose, initialValues }) {
     const [formData, setFormData] = useState({
         demand_period_count: 0,
         demand_error_calculation_method: 0,
-        demand_acceptable_error: 0
+        demand_acceptable_error: 0,
+        type_of_period: ''
     });
 
     useEffect(() => {
@@ -22,7 +24,8 @@ function DemandPrediction({ show, handleClose, initialValues }) {
             setFormData({
                 demand_period_count: initialValues.demand_period_count || '',
                 demand_error_calculation_method: initialValues.demand_error_calculation_method || '',
-                demand_acceptable_error: initialValues.demand_acceptable_error || ''
+                demand_acceptable_error: initialValues.demand_acceptable_error || '',
+                type_of_period: 'month'
             });
         }
     }, [initialValues]);
@@ -49,24 +52,17 @@ function DemandPrediction({ show, handleClose, initialValues }) {
         })
     }, [show]);
 
-    const handleSubmit = () => {
-        if (showPMform) {
-            console.log('Parametros generales', formData)
-        }
-        if (showPMPform) {
-            console.log('Ponderaciones:', ponderaciones);
-        }
-        if (showPMSEform) {
-            console.log('Suavizado', pmseParams)
-        }
-        if (showRLform) {
-            console.log('Parametros generales', formData)
-
-        }
+    const handleSubmit = async () => {
+        const methods = [];
+        if (showPMform){ methods.push("moving_average")}
+        if (showPMPform){methods.push("weighted_moving_average")}
+        if (showPMSEform){methods.push("exponentially_smoothed_moving_average")}
+        if (showRLform){methods.push("linear_regression")}
+        await ArticleService.predictDemand(formData,methods,pmseParams,initialValues.id,ponderaciones)
         setShowResults(true)
     }
 
-    const handlePonderacionesChange = (newPonderaciones) => {
+    const handleonWeightingsChange = (newPonderaciones) => {
         setPonderaciones(newPonderaciones);
     };
     const [pmseParams, setPmseParams] = useState({
@@ -132,7 +128,7 @@ function DemandPrediction({ show, handleClose, initialValues }) {
                         {showPMPform && (
                             <div>
                                 <h4>Párametros promedio móvil ponderado</h4>
-                                <WeightedAverage onPonderacionesChange={handlePonderacionesChange} />
+                                <WeightedAverage onWeightingsChange={handleonWeightingsChange} />
                                 <hr />
                             </div>
 

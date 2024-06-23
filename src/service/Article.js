@@ -44,5 +44,18 @@ export const ArticleService = {
     );
     const data = await response.json();
     return data;
-  }
+  },
+  predictDemand: async (formData, methods,pmseParams,id,weightings) =>{
+    debugger
+    const body = {
+      periods_quantity: formData.demand_period_count,
+      period: formData.type_of_period,
+      prediction_methods: methods,
+      weightings: weightings,
+      predicted_demand_for_the_previous_period: pmseParams.predicted_demand_for_the_previous_period,
+      alpha: pmseParams.alpha
+    }
+    console.log(body)
+  },
+
 }
