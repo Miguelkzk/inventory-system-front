@@ -57,5 +57,10 @@ export const ArticleService = {
     }
     console.log(body)
   },
-
+  getArticleByCode: async(code) =>{
+    const response = await fetch(`${BASE_URL}/articles/find_by_code?code=${code}`);
+    const data = await response.json();
+    return data;
+    
+  }
 }

@@ -32,7 +32,6 @@ function Sales() {
     const viewDetail = async (sale) => {
         const data = await SaleService.getSaleDetail(sale);
         setDetailSale(data);
-        console.log(data);
         setDetailModal(true);
     };
 
