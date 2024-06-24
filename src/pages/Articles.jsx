@@ -43,9 +43,23 @@ function ArticlesTable() {
     const data = await ArticleService.getAttributes();
     setAttributes(data)
   }
-  const attributesToExclude = ['created_at', 'updated_at', 'id', 'default_provider_id', 'article_family_id','storage_cost','demand_standard_deviation',
-    'demand_acceptable_error','deleted_at', 'estimated_demand','demand_period_count'];
-  const attributesToShow = Object.keys(article).filter(attribute => !attributesToExclude.includes(attribute));
+
+  const attributesToShow = [
+    'id',
+    'code',
+    'name',
+    'stock',
+    'default_provider_id',
+    'default_provider_name',
+    // 'storage_cost',
+    'inventory_model',
+    // 'revision_interval',
+    // 'demand_standard_deviation',
+    // 'demand_period_count',
+    // 'demand_error_calculation_method',
+    // 'demand_acceptable_error',
+    'estimated_demand'
+  ];
 
 
   const handleCloseModal = () => {
@@ -152,9 +166,9 @@ function ArticlesTable() {
           deleteElement={handleDelete}
           viewElement={viewHistoricalDemand}
           viewButton={true}
-          textViewButton={"Demanda historica"}
+          textViewButton={"Demanda histórica"}
           showGButton1 ={true}
-          textGButton1={"Parametros generales"}
+          textGButton1={"Parámetros generales"}
           actionshowGButton1 ={generalParams}
           showGButton2={true}
           textGButton2={"Predecir demanda"}
