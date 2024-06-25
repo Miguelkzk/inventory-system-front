@@ -46,16 +46,29 @@ export const ArticleService = {
     return data;
   },
   predictDemand: async (formData, methods,pmseParams,id,weightings) =>{
-    debugger
     const body = {
-      periods_quantity: formData.demand_period_count,
+      periods_quantity: parseInt(formData.demand_period_count),
       period: formData.type_of_period,
       prediction_methods: methods,
       weightings: weightings,
-      predicted_demand_for_the_previous_period: pmseParams.predicted_demand_for_the_previous_period,
-      alpha: pmseParams.alpha
+      predicted_demand_for_the_previous_period: parseInt(pmseParams.predicted_demand_for_the_previous_period),
+      alpha: parseFloat(pmseParams.alpha)
     }
-    console.log(body)
+    // que me perdonde dios
+    const demand_prediction = {demand_prediction: body}
+    console.log(demand_prediction)
+    const response = await fetch(`${BASE_URL}/articles/${id}/predict_demand`,
+      {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(demand_prediction)
+      }
+    );
+    const data = await response.json();
+    console.log(data)
+    return data;
   },
   getArticleByCode: async(code) =>{
     const response = await fetch(`${BASE_URL}/articles/find_by_code?code=${code}`);

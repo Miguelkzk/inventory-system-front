@@ -11,6 +11,7 @@ function DemandPrediction({ show, handleClose, initialValues }) {
     const [showRLform, setShowRLform] = useState(false);
     const [showResults, setShowResults] = useState(false);
     const [ponderaciones, setPonderaciones] = useState([]);
+    const [demandPrediction, setDemandPrediction] =useState({})
 
     const [formData, setFormData] = useState({
         demand_period_count: 0,
@@ -58,7 +59,8 @@ function DemandPrediction({ show, handleClose, initialValues }) {
         if (showPMPform){methods.push("weighted_moving_average")}
         if (showPMSEform){methods.push("exponentially_smoothed_moving_average")}
         if (showRLform){methods.push("linear_regression")}
-        await ArticleService.predictDemand(formData,methods,pmseParams,initialValues.id,ponderaciones)
+        const data = await ArticleService.predictDemand(formData,methods,pmseParams,initialValues.id,ponderaciones)
+        setDemandPrediction(data)
         setShowResults(true)
     }
 
@@ -171,28 +173,28 @@ function DemandPrediction({ show, handleClose, initialValues }) {
                             {showPMform && <div>
                                 <hr />
                                 <h5>Promedio movil</h5>
-                                <p>Resultado: </p>
+                                <p>Resultado: {demandPrediction.moving_average} </p>
                                 <p>Error: </p>
                                 <hr />
                             </div>}
                             {showPMPform && <div>
                                 <hr />
                                 <h5>Promedio movil ponderado</h5>
-                                <p>Resultado: </p>
+                                <p>Resultado: {demandPrediction.weighted_moving_average} </p>
                                 <p>Error: </p>
                                 <hr />
                             </div>}
                             {showPMSEform && <div>
                                 <hr />
                                 <h5>Promedio movil suavizado exponencialmente</h5>
-                                <p>Resultado: </p>
+                                <p>Resultado: {demandPrediction.exponentially_smoothed_moving_average} </p>
                                 <p>Error: </p>
                                 <hr />
                             </div>}
                             {showRLform && <div>
                                 <hr />
                                 <h5>Regresión lineal</h5>
-                                <p>Resultado: </p>
+                                <p>Resultado: {demandPrediction.linear_regression} </p>
                                 <p>Error: </p>
                                 <hr />
                             </div>}
