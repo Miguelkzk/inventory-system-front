@@ -8,7 +8,7 @@ function GeneralParamsModal({ show, handleClose, initialValues }) {
         demand_period_count: 0,
         demand_error_calculation_method: 0,
         demand_acceptable_error: 0,
-        type_of_period: ''
+        demand_period_kind: ''
     });
 
     useEffect(() => {
@@ -17,11 +17,10 @@ function GeneralParamsModal({ show, handleClose, initialValues }) {
                 demand_period_count: initialValues.demand_period_count || '',
                 demand_error_calculation_method: initialValues.demand_error_calculation_method || '',
                 demand_acceptable_error: initialValues.demand_acceptable_error || '',
-                type_of_period: 'month'
+                demand_period_kind: initialValues.demand_period_kind || ''
             });
         }
     }, [initialValues]);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -29,10 +28,9 @@ function GeneralParamsModal({ show, handleClose, initialValues }) {
             [name]: value
         });
     };
-
     const handleSubmit = async () => {
         try {
-            await ArticleService.updateArticle(formData, initialValues);
+            const data = await ArticleService.updateArticle(formData, initialValues);
             handleClose();
         } catch (error) {
             console.error("Error updating article:", error);

@@ -24,7 +24,6 @@ export const ArticleService = {
     return data;
   },
   updateArticle: async (formData, article) => {
-    console.log(article)
     const response = await fetch(`${BASE_URL}/articles/${article.id}`,
       {
         method: "PUT",

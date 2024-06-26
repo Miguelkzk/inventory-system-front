@@ -17,7 +17,7 @@ function DemandPrediction({ show, handleClose, initialValues }) {
         demand_period_count: 0,
         demand_error_calculation_method: 0,
         demand_acceptable_error: 0,
-        type_of_period: ''
+        demand_period_kind: ''
     });
 
     useEffect(() => {
@@ -26,7 +26,7 @@ function DemandPrediction({ show, handleClose, initialValues }) {
                 demand_period_count: initialValues.demand_period_count || '',
                 demand_error_calculation_method: initialValues.demand_error_calculation_method || '',
                 demand_acceptable_error: initialValues.demand_acceptable_error || '',
-                type_of_period: 'month'
+                demand_period_kind: initialValues.demand_period_kind || ''
             });
         }
     }, [initialValues]);

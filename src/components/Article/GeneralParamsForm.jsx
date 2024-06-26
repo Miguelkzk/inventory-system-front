@@ -1,7 +1,6 @@
 import { Form } from "react-bootstrap"
 
 const GeneralParamsForm = ({formData, handleChange,})=>{
-    
     return(
         <Form>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -19,8 +18,8 @@ const GeneralParamsForm = ({formData, handleChange,})=>{
                 <Form.Label>Tipo de periodo</Form.Label>
                 <Form.Control
                     as="select"
-                    name='period'
-                    value={formData.type_of_period}
+                    name='demand_period_kind'
+                    value={formData.demand_period_kind}
                     onChange={handleChange}
                 >
                     <option value="week">Semanal</option>
