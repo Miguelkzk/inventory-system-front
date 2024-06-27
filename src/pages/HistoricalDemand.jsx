@@ -49,6 +49,7 @@ function HistoricalDemand() {
                 name='demand_period_kind'
                 value={formData.demand_period_kind}
                 onChange={handleChange}
+                className="form-select"
               >
                 <option value="week">Semanal</option>
                 <option value="month">Mensual</option>
