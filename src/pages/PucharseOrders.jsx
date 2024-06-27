@@ -35,6 +35,7 @@ function PucharseOrders() {
     
     const handleCloseModal= ()=>{
         setShowModal(false)
+        setSelectOrder('')
         setshowDeleteModal(false)
     }
 
@@ -42,23 +43,43 @@ function PucharseOrders() {
         console.log(element)
         setInitialValues(element)
         setShowModal(true)
+        setSelectOrder(element)
     }
     const handleShowDeleteModal = (element)=>{
         setSelectOrder(element)
         setshowDeleteModal(true)
     }
 
-    const handleSave = ()=>{
-        console.log('falopa')
+    const handleSave = async (formData)=>{
+        await PucharseOrderService.updateOrder(formData, selectOrder)
+        fetchPucharseOrders();
+        setSelectOrder('')
+        handleCloseModal();
     }
+
     const handleConfirmDelete = async ()=>{
-        console.log('borrar')
+        try{
+            await PucharseOrderService.deleteOrder(selectOrder)
+            fetchPucharseOrders();
+            handleCloseModal();
+        }
+        catch{
+            console.log("no se ha podido eliminar")
+        }
     }
+
     const handleCancelDelete = ()=>{
         setshowDeleteModal(false)
         setSelectOrder('')
     }
 
+    const handleFinish = async (element)=>{
+        const body = {
+            state: 'finished'
+        }
+        await PucharseOrderService.updateOrder(body,element)
+        fetchPucharseOrders();
+    }
     return (
         <>
         <div className="container">
@@ -87,7 +108,7 @@ function PucharseOrders() {
                                 </>
                             ) : element.state === "sent" ? (
                                 <>
-                                    <td><Button>Finalizar</Button></td>
+                                    <td><Button onClick={()=>handleFinish(element)}>Finalizar</Button></td>
                                     <td></td>
                                 </>
                             ) : (
