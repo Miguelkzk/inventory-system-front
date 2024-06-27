@@ -74,5 +74,16 @@ export const ArticleService = {
     const data = await response.json();
     return data;
     
-  }
+  },
+  getHistoricalDemand:async(article, filters) =>{
+      var response = '';
+    if (filters.demand_period_count == ''){
+       response = await fetch(`${BASE_URL}/articles/${article.id}/historical_demand`)
+    }else{
+      response = await fetch(`${BASE_URL}/articles/${article.id}/historical_demand?periods_quantity=${filters.demand_period_count}&period=${filters.demand_period_kind}`);
+    }
+    const data = await response.json();
+    console.log(data)
+    return data;
+}
 }
