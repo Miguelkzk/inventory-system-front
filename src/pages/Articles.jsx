@@ -51,14 +51,10 @@ function ArticlesTable() {
     'stock',
     'default_provider_id',
     'default_provider_name',
-    // 'storage_cost',
     'inventory_model',
-    // 'revision_interval',
-    // 'demand_standard_deviation',
-    // 'demand_period_count',
-    // 'demand_error_calculation_method',
-    // 'demand_acceptable_error',
-    'estimated_demand'
+    'estimated_demand',
+    'replenish?',
+    'missing?'
   ];
 
 

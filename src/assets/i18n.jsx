@@ -46,7 +46,11 @@ const resources = {
       'pending': 'pendiente',
       'sent':'enviada',
       'finished':'finalizada',
-      'quantity':'cantidad'
+      'quantity':'cantidad',
+      'replenish?':'a reponer?',
+      'missing?':'faltante?',
+      'true':'si',
+      'false':'no'
     }
   }
 };
