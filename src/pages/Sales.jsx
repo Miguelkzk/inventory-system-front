@@ -27,6 +27,7 @@ function Sales() {
     const handleCloseModal = () => {
         setSaleModal(false);
         setDetailModal(false);
+        fetchSales();
     };
 
     const viewDetail = async (sale) => {
