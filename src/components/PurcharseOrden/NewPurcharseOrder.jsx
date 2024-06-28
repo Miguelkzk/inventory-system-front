@@ -134,7 +134,7 @@ function NewPurcharseOrder({ show, handleClose, article }) {
             </div>
           )}
           <hr/>
-          {activePurcharseOrden && <p style={{color:'red', fontSize:'20px'}}class="badge badge-warning">Ya hay ordenes activas para este producto</p>}
+          {activePurcharseOrden && <p style={{color:'red', fontSize:'20px'}}className="badge badge-warning">Ya hay ordenes activas para este producto</p>}
           <div style={{width:'100%', display:'flex', justifyContent:'center'}}>
           <Button variant="primary" type="submit">Crear orden</Button>
           </div>

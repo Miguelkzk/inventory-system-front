@@ -47,15 +47,14 @@ export const ArticleService = {
   predictDemand: async (formData, methods,pmseParams,id,weightings) =>{
     const body = {
       periods_quantity: parseInt(formData.demand_period_count),
-      period: formData.type_of_period,
+      period: formData.demand_period_kind,
       prediction_methods: methods,
       weightings: weightings,
-      predicted_demand_for_the_previous_period: parseInt(pmseParams.predicted_demand_for_the_previous_period),
+      predicted_demand_for_first_period: parseInt(pmseParams.predicted_demand_for_the_previous_period),
       alpha: parseFloat(pmseParams.alpha)
     }
-    // que me perdonde dios
+    console.log(body)
     const demand_prediction = {demand_prediction: body}
-    console.log(demand_prediction)
     const response = await fetch(`${BASE_URL}/articles/${id}/predict_demand`,
       {
         method: "POST",
