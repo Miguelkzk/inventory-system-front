@@ -165,7 +165,7 @@ function DemandPrediction({ show, handleClose, initialValues }) {
                                 <Form.Group>
                                     <Form.Check
                                         type="checkbox"
-                                        label="Promedio Móvil suavizado exponencialmente"
+                                        label="Suavizacion exponencial"
                                         checked={showPMSEform}
                                         onChange={() => setShowPMSEform(!showPMSEform)} />
                                 </Form.Group>
@@ -188,7 +188,7 @@ function DemandPrediction({ show, handleClose, initialValues }) {
                             )}
                             {showPMSEform && (
                                 <div>
-                                    <h4>Parámetros suavizado exponencial</h4>
+                                    <h4>Parámetros suavizacion exponencial</h4>
                                     <Form>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                                             <Form.Group style={{ width: '45%' }}>
@@ -242,7 +242,7 @@ function DemandPrediction({ show, handleClose, initialValues }) {
                                 {showPMSEform && demandPrediction.exponential_smoothing && (
                                     <div>
                                         <hr />
-                                        <h5>Promedio móvil suavizado exponencialmente</h5>
+                                        <h5>Suavizacion exponencial</h5>
                                         <p>Resultado: {demandPrediction.exponential_smoothing.value}</p>
                                         <p>Error: {demandPrediction.exponential_smoothing.error}</p>
                                         <hr />
@@ -282,7 +282,7 @@ function DemandPrediction({ show, handleClose, initialValues }) {
                                             <Form.Check
                                                 type="radio"
                                                 name="selectedMethod"
-                                                label="Promedio Móvil suavizado exponencialmente"
+                                                label="Suavizacion exponencial"
                                                 checked={selectedMethod === 'exponential_smoothing'}
                                                 onChange={() => setSelectedMethod('exponential_smoothing')}
                                             />
