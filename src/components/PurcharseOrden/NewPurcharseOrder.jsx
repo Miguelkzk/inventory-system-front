@@ -10,6 +10,7 @@ function NewPurcharseOrder({ show, handleClose, article }) {
   const [optimalLot, setOptimalLot] = useState('');
   const [useDifferentQuantity, setUseDifferentQuantity] = useState(false);
   const [differentQuantity, setDifferentQuantity] = useState('');
+  const [activePurcharseOrden, setactivePurcharseOrden] =useState(true)
 
   useEffect(() => {
     if (article && article.id) {
@@ -72,6 +73,12 @@ function NewPurcharseOrder({ show, handleClose, article }) {
       const optimalLotData = await ArticleService.optimalLot(article, selectedProvider);
       setCgi(cgiData);
       setOptimalLot(optimalLotData);
+      const ActivePU = await ArticleService.activePurcharseOrden(article);
+
+      if (ActivePU.length === 0){
+        setactivePurcharseOrden(false)}
+      else{setactivePurcharseOrden(true)}
+
     } catch (error) {
       console.error('Error fetching data:', error);
       setCgi('Error fetching CGI');
@@ -127,6 +134,7 @@ function NewPurcharseOrder({ show, handleClose, article }) {
             </div>
           )}
           <hr/>
+          {activePurcharseOrden && <p style={{color:'red', fontSize:'20px'}}class="badge badge-warning">Ya hay ordenes activas para este producto</p>}
           <div style={{width:'100%', display:'flex', justifyContent:'center'}}>
           <Button variant="primary" type="submit">Crear orden</Button>
           </div>

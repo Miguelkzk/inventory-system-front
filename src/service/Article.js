@@ -117,5 +117,10 @@ export const ArticleService = {
     const response = await fetch(`${BASE_URL}/articles/${article.id}/optimal_lot?provider_id=${provider}`);
     const data = await response.json();
   return data
-}
+},
+  activePurcharseOrden: async (article)=>{
+    const response = await fetch(`${BASE_URL}/articles/${article.id}/active_purchase_orders`);
+    const data = await response.json();
+  return data
+  }
 }
