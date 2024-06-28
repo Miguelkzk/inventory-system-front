@@ -103,4 +103,19 @@ export const ArticleService = {
     const data = await response.json();
     return data;
   },
+  ArticleProviders: async (article)=>{
+    const response = await fetch(`${BASE_URL}/articles/${article.id}/providers`);
+    const data = await response.json();
+  return data
+  },
+  cgi: async (article,provider)=>{
+    const response = await fetch(`${BASE_URL}/articles/${article.id}/cgi?provider_id=${provider}`);
+    const data = await response.json();
+  return data
+  },
+  optimalLot: async (article,provider)=>{
+    const response = await fetch(`${BASE_URL}/articles/${article.id}/optimal_lot?provider_id=${provider}`);
+    const data = await response.json();
+  return data
+}
 }

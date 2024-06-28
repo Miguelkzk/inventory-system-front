@@ -9,7 +9,7 @@ import GraphButton from "./Buttons/GraphButton";
 import AddButton from "./Buttons/AddButton";
 
 function GenericTable({ attributesToShow, elements, editElement, deleteElement, viewElement,
-  viewButton, textViewButton, showGButton1, textGButton1, showGButton2, textGButton2, showMButton, textMButton, actionshowGButton1, actionShowGButton }) {
+  viewButton, textViewButton, showGButton1, textGButton1, showGButton2, textGButton2, showMButton, textMButton, actionshowGButton1, actionShowGButton, actionShowMButton }) {
   const { t } = useTranslation();
   return (
     <>
@@ -39,7 +39,7 @@ function GenericTable({ attributesToShow, elements, editElement, deleteElement, 
               {viewButton && <td><ViewButton onClick={() => viewElement(element)} /></td>}
               {showGButton1 && <td><GearButton onClick={() => actionshowGButton1(element)} /></td>}
               {showGButton2 && <td><GraphButton onClick={() => actionShowGButton(element)} /></td>}
-              {showMButton && <td><AddButton /> </td>}
+              {showMButton && <td><AddButton onClick={()=> actionShowMButton(element)}/> </td>}
               {element.deleted_at === null && (
                 <>
                   <td><EditButton onClick={() => editElement(element)} /></td>

@@ -32,4 +32,22 @@ export const PucharseOrderService = {
     const data = await response.json();
     return data;
   },
+  newOrder: async (quantity, article) => {
+    const body ={
+      article_id: article.id,
+      quantity: quantity,
+      state: "pending"
+    }
+    const response = await fetch(`${BASE_URL}/purchase_orders/`,
+      {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      }
+    );
+    const data = await response.json();
+    return data;
+  },
 }

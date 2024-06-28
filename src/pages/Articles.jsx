@@ -12,6 +12,7 @@ import { AttributesService } from "../service/AttributesModels";
 import GeneralParamsModal from "../components/Article/GeneralParamsModal";
 import DemandPrediction from "../components/Article/DemandPrediction";
 import { useNavigate } from "react-router-dom";
+import NewPurcharseOrden from "../components/PurcharseOrden/NewPurcharseOrder";
 function ArticlesTable() {
 
   const [showModal, setShowModal] = useState(false);
@@ -25,6 +26,7 @@ function ArticlesTable() {
   const [attributes, setAttributes] = useState([])
   const [showGPModal, setshowGPModal] =useState(false);
   const [showPredictDemand, setshowPredictDemand]= useState(false);
+  const [showPoModal, setShowPoModal]=useState(false)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -63,6 +65,7 @@ function ArticlesTable() {
     setshowGPModal(false);
     setInitialValues("")
     setshowPredictDemand(false)
+    setShowPoModal(false)
     fetchArticles();
   };
 
@@ -138,9 +141,13 @@ function ArticlesTable() {
 
   const viewHistoricalDemand = (element)=>{
     setSelectedArticle(element)
-
     navigate("/historical-demand", { state: { article: element } });
   }
+  const newPurcharsOrden = (element)=>{
+    setArticle(element)
+    setShowPoModal(true)
+  }
+
   return (
     <>
       <div className="mt-3" >
@@ -171,6 +178,7 @@ function ArticlesTable() {
           actionShowGButton={predictDemand}
           showMButton={true}
           textMButton={'Agregar orden de compra'}
+          actionShowMButton={newPurcharsOrden}
         />
         </div>
       </div>
@@ -192,6 +200,12 @@ function ArticlesTable() {
       show={showPredictDemand}
       handleClose={handleCloseModal}
       initialValues={selectedArticle}
+      />
+
+      <NewPurcharseOrden
+      show={showPoModal}
+      handleClose={handleCloseModal}
+      article={article}
       />
 
     </>
