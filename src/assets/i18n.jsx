@@ -50,7 +50,8 @@ const resources = {
       'replenish?':'a reponer?',
       'missing?':'faltante?',
       'true':'si',
-      'false':'no'
+      'false':'no',
+      'sold_at': 'fecha cuando se vendió'
     }
   }
 };

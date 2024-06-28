@@ -114,7 +114,7 @@ function HistoricalDemand() {
       <GenericModal
         show={showModal}
         handleClose={handleCloseModal}
-        title={"Editar orden de compra"}
+        title={"Nueva demanda histórica"}
         attributes={attributes}
         handleFormSubmit={handleSave}
         initialValues={initialValues}
