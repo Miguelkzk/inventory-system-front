@@ -13,6 +13,7 @@ import GeneralParamsModal from "../components/Article/GeneralParamsModal";
 import DemandPrediction from "../components/Article/DemandPrediction";
 import { useNavigate } from "react-router-dom";
 import NewPurcharseOrden from "../components/PurcharseOrden/NewPurcharseOrder";
+import Formarticle from "../components/Article/FormArticle";
 function ArticlesTable() {
 
   const [showModal, setShowModal] = useState(false);
@@ -154,7 +155,7 @@ function ArticlesTable() {
         <div style={{width: '100%'}}>
         <Button onClick={() => newArticle()}>{t('New article')}</Button>
 
-        <GenericModal
+        <Formarticle
           show={showModal}
           handleClose={handleCloseModal}
           title={titleModal}

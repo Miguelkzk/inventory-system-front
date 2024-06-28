@@ -74,8 +74,8 @@ function NewPurcharseOrder({ show, handleClose, article }) {
       setCgi(cgiData);
       setOptimalLot(optimalLotData);
       const ActivePU = await ArticleService.activePurcharseOrden(article);
-
-      if (ActivePU.length === 0){
+      console.log(ActivePU)
+      if (ActivePU.length == 0){
         setactivePurcharseOrden(false)}
       else{setactivePurcharseOrden(true)}
 
@@ -89,6 +89,7 @@ function NewPurcharseOrder({ show, handleClose, article }) {
   const resetForm = () => {
     setUseDifferentQuantity(false);
     setDifferentQuantity('');
+    setactivePurcharseOrden(true)
   };
 
   return (
