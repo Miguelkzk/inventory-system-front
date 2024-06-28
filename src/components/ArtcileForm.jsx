@@ -6,6 +6,7 @@ const ArtcileForm = ({ attributes, onSubmit, initialValues }) => {
   const [fields, setFields] = useState([]);
   const [formData, setFormData] = useState({});
   const { t } = useTranslation();
+
   const setFormFields = () => {
     const newFields = attributes.map((attribute) => {
       const field = {
