@@ -85,5 +85,22 @@ export const ArticleService = {
     const data = await response.json();
     console.log(data)
     return data;
-}
+}, 
+  addDemandHistorical: async (body) => {
+    const historical_demand = {
+      historical_demand: body
+    }
+    console.log(historical_demand)
+    const response = await fetch(`${BASE_URL}/historical_demands/`,
+      {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(historical_demand)
+      }
+    );
+    const data = await response.json();
+    return data;
+  },
 }

@@ -27,7 +27,6 @@ const GeneralParamsForm = ({ formData, handleChange, }) => {
             <option value="week">Semanal</option>
             <option value="month">Mensual</option>
             <option value="year">Anual</option>
-
           </Form.Control>
         </Form.Group>
       </div>

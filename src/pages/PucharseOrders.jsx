@@ -25,7 +25,6 @@ function PucharseOrders() {
     const fetchPucharseOrders = async () => {
         const data = await PucharseOrderService.getOrders();
         setPucharseOrders(data);
-        console.log(data)
     };
 
     const getAttributes = async ()=>{
@@ -40,7 +39,6 @@ function PucharseOrders() {
     }
 
     const handleShowModal = (element) =>{
-        console.log(element)
         setInitialValues(element)
         setShowModal(true)
         setSelectOrder(element)
