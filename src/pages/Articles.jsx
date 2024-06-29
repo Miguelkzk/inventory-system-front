@@ -56,6 +56,7 @@ function ArticlesTable() {
     'default_provider_name',
     'inventory_model',
     'estimated_demand',
+    'reorder_point',
     'replenish?',
     'missing?'
   ];
