@@ -2,10 +2,11 @@ import { Button, Form, Modal, Table } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import ArtcileForm from "../ArtcileForm";
 import { ProviderServide } from "../../service/Provider";
+import { ArticleService } from "../../service/Article";
 
 function Formarticle({ show, handleClose, title, attributes, handleFormSubmit, initialValues }) {
   const exclude = [
-    'deleted_at', 'default_provider_id', 'annual_demand_standard_deviation', 'demand_period_count',
+    'deleted_at', 'annual_demand_standard_deviation', 'demand_period_count',
     'demand_period_kind', 'demand_error_calculation_method', 'demand_acceptable_error', 'stock_will_be_checked_at'
   ];
   const dataForm = attributes.filter(attribute => !exclude.includes(attribute.name));
@@ -17,6 +18,9 @@ function Formarticle({ show, handleClose, title, attributes, handleFormSubmit, i
   const [purchaseCost, setPurchaseCost] = useState('');
   const [articleProviders, setArticleProviders] = useState([]);
   const [formState, setFormState] = useState(initialValues);
+
+  // Bandera para determinar si estamos editando o creando un artículo
+  const isEditing = Boolean(initialValues && initialValues.id);
 
   useEffect(() => {
     if (initialValues && initialValues.article_providers) {
@@ -49,14 +53,24 @@ function Formarticle({ show, handleClose, title, attributes, handleFormSubmit, i
   const handleProviderFormSubmit = () => {
     if (currentProvider) {
       const newProvider = {
-        id: Date.now(), // Temporary ID for the new provider
         provider_id: currentProvider.id,
-        name: currentProvider.name,
         lead_time: leadTime,
         order_cost: orderCost,
         purchase_cost: purchaseCost
       };
-      setArticleProviders([...articleProviders, newProvider]);
+      setArticleProviders(prevProviders => {
+        // Check if the provider already exists in the array
+        const existingProvider = prevProviders.find(provider => provider.id === newProvider.id);
+        if (existingProvider) {
+          // Update the existing provider
+          return prevProviders.map(provider =>
+            provider.id === newProvider.id ? newProvider : provider
+          );
+        } else {
+          // Add the new provider
+          return [...prevProviders, newProvider];
+        }
+      });
       setCurrentProvider(null);
       setLeadTime('');
       setOrderCost('');
@@ -69,8 +83,30 @@ function Formarticle({ show, handleClose, title, attributes, handleFormSubmit, i
   };
 
   const handleArticleFormSubmit = (formData) => {
-    // Handle submission of ArticleForm data
-    handleFormSubmit(formData);
+    setFormState(formData);
+  };
+
+  const handleSave = async () => {
+    const completeFormData = {
+      ...formState,
+      article_providers_attributes: articleProviders
+    };
+
+    try {
+      if (isEditing) {
+        console.log(completeFormData)
+       // await ArticleService.updateArticle(completeFormData,formState );
+        console.log("e")
+      } else {
+        console.log(completeFormData)
+        await ArticleService.newArticle(completeFormData);
+        console.log("n")
+
+      }
+      handleCloseModal();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -162,7 +198,9 @@ function Formarticle({ show, handleClose, title, attributes, handleFormSubmit, i
             </div>
           </div>
         </div>
-        <Button>Guardar</Button>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button onClick={handleSave}>Guardar</Button>
+        </div>
       </Modal.Body>
     </Modal>
   );

@@ -127,6 +127,7 @@ function DemandPrediction({ show, handleClose, initialValues }) {
             await ArticleService.updateArticle(quantity, initialValues);
         }else{
             await PucharseOrderService.newOrder(quantity.estimated_demand,initialValues);
+            handleClose()
         }
     };
 

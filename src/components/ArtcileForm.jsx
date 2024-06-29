@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 const ArtcileForm = ({ attributes, onSubmit, initialValues }) => {
@@ -45,7 +45,7 @@ const ArtcileForm = ({ attributes, onSubmit, initialValues }) => {
 
   useEffect(() => {
     const initialFormData = fields.reduce((acc, field) => {
-      acc[field.name] = initialValues[field.name] || '';
+      acc[field.name] = initialValues[field.name] || "";
       return acc;
     }, {});
     setFormData(initialFormData);
@@ -53,19 +53,16 @@ const ArtcileForm = ({ attributes, onSubmit, initialValues }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
+    const newFormData = {
+      ...formData,
       [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData);
+    };
+    setFormData(newFormData);
+    onSubmit(newFormData);
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form>
       {fields.map((field) => (
         <div key={field.name} style={{ marginBottom: '10px', width: '100%', display: 'flex', justifyContent: 'center' }}>
           <label style={{ width: '80%' }}>
